@@ -5,13 +5,11 @@ import {
   Dimensions,
   EmitterSubscription,
   InteractionManager,
-  KeyboardAvoidingView,
   Modal,
   PanResponder,
   BackHandler,
   PanResponderGestureState,
   PanResponderInstance,
-  Platform,
   StyleProp,
   TouchableWithoutFeedback,
   View,
@@ -21,6 +19,7 @@ import {
 import * as PropTypes from 'prop-types';
 import * as animatable from 'react-native-animatable';
 import {Animation, CustomAnimation} from 'react-native-animatable';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {
   initializeAnimations,
@@ -59,7 +58,6 @@ const defaultProps = {
   animationInTiming: 300,
   animationOut: 'slideOutDown' as Animation | CustomAnimation,
   animationOutTiming: 300,
-  avoidKeyboard: false,
   coverScreen: true,
   hasBackdrop: true,
   backdropColor: 'black',
@@ -130,7 +128,6 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
     animationInTiming: PropTypes.number,
     animationOut: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     animationOutTiming: PropTypes.number,
-    avoidKeyboard: PropTypes.bool,
     coverScreen: PropTypes.bool,
     hasBackdrop: PropTypes.bool,
     backdropColor: PropTypes.string,
@@ -232,7 +229,10 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
     }
   }
 
-  static getDerivedStateFromProps(nextProps: Readonly<ModalProps>, state: State) {
+  static getDerivedStateFromProps(
+    nextProps: Readonly<ModalProps>,
+    state: State,
+  ) {
     if (!state.isVisible && nextProps.isVisible) {
       return {isVisible: true, showContent: true};
     }
@@ -755,7 +755,6 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       animationInTiming,
       animationOut,
       animationOutTiming,
-      avoidKeyboard,
       coverScreen,
       hasBackdrop,
       backdropColor,
@@ -812,7 +811,13 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         pointerEvents="box-none"
         useNativeDriver={useNativeDriver}
         {...containerProps}>
-        {_children}
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{flex: 1}}
+          style={{overflow: 'visible'}}
+          bounces={false}>
+          {_children}
+        </KeyboardAwareScrollView>
       </animatable.View>
     );
 
@@ -824,6 +829,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
           pointerEvents="box-none"
           style={[styles.backdrop, styles.containerBox]}>
           {this.makeBackdrop()}
+
           {containerView}
         </View>
       );
@@ -836,17 +842,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         onRequestClose={onBackButtonPress}
         {...otherProps}>
         {this.makeBackdrop()}
-
-        {avoidKeyboard ? (
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            pointerEvents="box-none"
-            style={computedStyle.concat([{margin: 0}])}>
-            {containerView}
-          </KeyboardAvoidingView>
-        ) : (
-          containerView
-        )}
+        {containerView}
       </Modal>
     );
   }
