@@ -811,13 +811,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         pointerEvents="box-none"
         useNativeDriver={useNativeDriver}
         {...containerProps}>
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1}}
-          style={{overflow: 'visible'}}
-          bounces={false}>
-          {_children}
-        </KeyboardAwareScrollView>
+        {_children}
       </animatable.View>
     );
 
@@ -828,9 +822,14 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         <View
           pointerEvents="box-none"
           style={[styles.backdrop, styles.containerBox]}>
-          {this.makeBackdrop()}
-
-          {containerView}
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{flex: 1}}
+            style={{overflow: 'visible'}}
+            bounces={false}>
+            {this.makeBackdrop()}
+            {containerView}
+          </KeyboardAwareScrollView>
         </View>
       );
     }
@@ -841,8 +840,14 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         visible={this.state.isVisible}
         onRequestClose={onBackButtonPress}
         {...otherProps}>
-        {this.makeBackdrop()}
-        {containerView}
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{flex: 1}}
+          style={{overflow: 'visible'}}
+          bounces={false}>
+          {this.makeBackdrop()}
+          {containerView}
+        </KeyboardAwareScrollView>
       </Modal>
     );
   }

@@ -642,16 +642,7 @@ export class ReactNativeModal extends React.Component {
         },
         containerProps,
       ),
-      React.createElement(
-        KeyboardAwareScrollView,
-        {
-          keyboardShouldPersistTaps: 'handled',
-          contentContainerStyle: {flex: 1},
-          style: {overflow: 'visible'},
-          bounces: false,
-        },
-        _children,
-      ),
+      _children,
     );
     // If coverScreen is set to false by the user
     // we render the modal inside the parent view directly
@@ -662,8 +653,17 @@ export class ReactNativeModal extends React.Component {
           pointerEvents: 'box-none',
           style: [styles.backdrop, styles.containerBox],
         },
-        this.makeBackdrop(),
-        containerView,
+        React.createElement(
+          KeyboardAwareScrollView,
+          {
+            keyboardShouldPersistTaps: 'handled',
+            contentContainerStyle: {flex: 1},
+            style: {overflow: 'visible'},
+            bounces: false,
+          },
+          this.makeBackdrop(),
+          containerView,
+        ),
       );
     }
     return React.createElement(
@@ -677,8 +677,17 @@ export class ReactNativeModal extends React.Component {
         },
         otherProps,
       ),
-      this.makeBackdrop(),
-      containerView,
+      React.createElement(
+        KeyboardAwareScrollView,
+        {
+          keyboardShouldPersistTaps: 'handled',
+          contentContainerStyle: {flex: 1},
+          style: {overflow: 'visible'},
+          bounces: false,
+        },
+        this.makeBackdrop(),
+        containerView,
+      ),
     );
   }
 }
