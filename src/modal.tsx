@@ -78,6 +78,7 @@ const defaultProps = {
   isVisible: false,
   panResponderThreshold: 4,
   swipeThreshold: 100,
+  zIndex: 0,
 
   onModalShow: (() => null) as () => void,
   onModalWillShow: (() => null) as () => void,
@@ -112,6 +113,7 @@ export type ModalProps = ViewProps & {
   hardwareAccelerated?: boolean;
   onOrientationChange?: OnOrientationChange;
   presentationStyle?: PresentationStyle;
+  zIndex?: number;
 
   // Default ModalProps Provided
   useNativeDriverForBackdrop?: boolean;
@@ -769,6 +771,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       useNativeDriver,
       propagateSwipe,
       style,
+      zIndex = 0,
       ...otherProps
     } = this.props;
 
@@ -821,7 +824,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       return (
         <View
           pointerEvents="box-none"
-          style={[styles.backdrop, styles.containerBox]}>
+          style={[{zIndex}, styles.backdrop, styles.containerBox]}>
           <KeyboardAwareScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{flex: 1}}
