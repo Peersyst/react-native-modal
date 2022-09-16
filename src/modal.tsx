@@ -824,7 +824,11 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       return (
         <View
           pointerEvents="box-none"
-          style={[{zIndex}, styles.backdrop, styles.containerBox]}>
+          style={[
+            {zIndex, elevation: zIndex},
+            styles.backdrop,
+            styles.containerBox,
+          ]}>
           <KeyboardAwareScrollView
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{flex: 1}}
