@@ -15,7 +15,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   containerBox: {
-    zIndex: 2,
     opacity: 1,
     backgroundColor: 'transparent',
   },

@@ -19,7 +19,6 @@ import {
 import * as PropTypes from 'prop-types';
 import * as animatable from 'react-native-animatable';
 import {Animation, CustomAnimation} from 'react-native-animatable';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {
   initializeAnimations,
@@ -829,14 +828,8 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
             styles.backdrop,
             styles.containerBox,
           ]}>
-          <KeyboardAwareScrollView
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{flex: 1}}
-            style={{overflow: 'visible'}}
-            bounces={false}>
-            {this.makeBackdrop()}
-            {containerView}
-          </KeyboardAwareScrollView>
+          {this.makeBackdrop()}
+          {containerView}
         </View>
       );
     }
@@ -847,14 +840,8 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
         visible={this.state.isVisible}
         onRequestClose={onBackButtonPress}
         {...otherProps}>
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1}}
-          style={{overflow: 'visible'}}
-          bounces={false}>
-          {this.makeBackdrop()}
-          {containerView}
-        </KeyboardAwareScrollView>
+        {this.makeBackdrop()}
+        {containerView}
       </Modal>
     );
   }
